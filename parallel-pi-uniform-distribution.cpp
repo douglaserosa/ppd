@@ -26,9 +26,10 @@ void* partRandom (void *params) {
     std::uniform_int_distribution<int> dist(0, 999999);
 
     from = args->threadNum * ceil((double) N / NUM_THREADS) + 1;
-    until = (args->threadNum  + 1) * ceil((double)N / NUM_THREADS);
     if (args->threadNum == NUM_THREADS - 1) {
         until = N;
+    } else {
+        until = (args->threadNum  + 1) * ceil((double)N / NUM_THREADS);
     }
 
     for (i = from; i <= until; i++) {
@@ -71,9 +72,6 @@ int main(int argc, char** argv) {
 
     for (i = 0; i < NUM_THREADS; i++) {
         pthread_join(threads[i], NULL);
-    }
-
-    for (i = 0; i < NUM_THREADS; i++) {
         m += threadParams[i].m;
     }
 
